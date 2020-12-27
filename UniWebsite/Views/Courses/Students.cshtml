@@ -1,0 +1,80 @@
+﻿@model IEnumerable<SCE___FINAL.ViewModels.StudentViewModel>
+
+
+<h4>Students</h4>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayName("Moed A")
+        </th>
+        <th>
+            @Html.DisplayName("Moed B")
+        </th>
+        <th>
+            @Html.DisplayName("Final Grade")
+        </th>
+        <th></th>
+    </tr>
+
+        @foreach (var item in Model)
+        {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+    
+                        @Html.DisplayFor(modelItem => item.MoedAGrade)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MoedBGrade)
+                    </td>
+                    <td>
+                        @if (item.FinalGrade < 56)
+                        {
+                            <span style="color:red;">@item.FinalGrade </span>
+                        }
+                        else
+                        {
+                            <span style="color:green;">@item.FinalGrade </span>
+                        }
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Update Moed A", "UpdateGrades", "Exams", new { CourseId = item.CourseId, UserId = item.id, Moed = "A", Name = item.FirstName + " " + item.LastName }, htmlAttributes: new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Update Moed B", "UpdateGrades", "Exams", new { CourseId = item.CourseId, UserId = item.id, Moed = "B", Name = item.FirstName + " " + item.LastName }, htmlAttributes: new { @class = "btn btn-primary" })
+                        @if(Roles.IsUserInRole(User.Identity.Name, "Admin")){
+                            @Html.ActionLink("Delete Student", "DeleteStudent", "Courses", new { UserId = item.id, CourseId = item.CourseId }, htmlAttributes: new { @class = "btn btn-danger" })
+                        }
+                    </td>
+
+                    </tr>
+
+        }
+
+
+
+
+</table>

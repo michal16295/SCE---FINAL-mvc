@@ -1,0 +1,150 @@
+﻿@model SCE___FINAL.ViewModels.CourseViewModel
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<h2>Details</h2>
+
+<div>
+    <h4>Course</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FinishDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FinishDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Class)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Class)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Hours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hours)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MoedA)
+        </dt>
+
+        <dd>
+
+            @Html.DisplayFor(model => model.MoedA)
+            @if (Model.MoedA.HasValue && DateTime.Now < Model.MoedA && Roles.IsUserInRole(User.Identity.Name, "Admin"))
+            {
+                @Html.ActionLink("Edit Moed A", "Edit", "Exams", new { id = Model.Courseid, Moed = "A" }, null)
+            }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MoedB)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MoedB)
+            @if (Model.MoedB.HasValue && DateTime.Now < Model.MoedB && Roles.IsUserInRole(User.Identity.Name, "Admin"))
+            {
+                @Html.ActionLink("Edit Moed B", "Edit", "Exams", new { id = Model.Courseid, Moed = "B" }, null)
+            }
+
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Lecturer)
+        </dt>
+        <dd>
+            @if (Model.Lecturer == "")
+            {
+
+                if (Roles.IsUserInRole(User.Identity.Name, "Admin"))
+                {
+                    @Html.ActionLink("Add Lecturer", "AddLecturer", new { CourseId = Model.Courseid }, htmlAttributes: new { @class = "btn btn-info" })
+                }
+
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.Lecturer)
+
+            }
+        </dd>
+                            
+
+
+
+    </dl>
+
+    <p>
+        @if (Roles.IsUserInRole(User.Identity.Name, "Admin"))
+        {
+            if (DateTime.Now < Model.FinishDate)
+            {
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Courseid }, htmlAttributes: new { @class = "btn btn-info" })
+
+            }
+            @Html.ActionLink("Back to List", "Index",null, htmlAttributes: new { @class = "btn btn-info" })
+        }
+        @if (Roles.IsUserInRole(User.Identity.Name, "Lecturer"))
+        {
+            @Html.ActionLink("Back to List", "Details", "Users", new { id = User.Identity.GetUserId() }, htmlAttributes: new { @class = "btn btn-info" })
+        }
+
+    </p>
+
+
+    @{Html.RenderAction("Students", new { id = Model.Courseid });}
+</div>
+<p>
+    @if (Roles.IsUserInRole(User.Identity.Name, "Admin"))
+    {
+
+
+        if (Model.FinishDate > DateTime.Now)
+        {
+            @Html.ActionLink("Add Students", "AddStudent", new { CourseId = Model.Courseid }, htmlAttributes: new { @class = "btn btn-primary" }) 
+        }
+
+        if (Model.MoedA == null && Model.MoedB == null)
+        {
+
+            @Html.ActionLink("Add Test", "Create", "Exams", new { CourseId = Model.Courseid, Moed = "A" }, htmlAttributes: new { @class = "btn btn-primary" }) 
+
+        }
+        
+        if (Model.MoedA != null && Model.MoedB == null)
+        {
+
+            @Html.ActionLink("Add Test", "Create", "Exams", new { CourseId = Model.Courseid, Moed = "B" }, htmlAttributes: new { @class = "btn btn-primary" })
+
+        }
+    }
+
+</p>
+

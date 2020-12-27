@@ -1,0 +1,68 @@
+﻿@model IEnumerable<SCE___FINAL.ViewModels.ExamViewModel>
+
+@{
+    ViewBag.Title = "MyExams";
+}
+
+<h2>My Exams</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.course)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Moed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Class)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Hours)
+        </th>
+        @if (Roles.IsUserInRole(User.Identity.Name, "Student"))
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.Grade)
+            </th>
+        }
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.course)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Moed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Class)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Hours)
+        </td>
+        @if (Roles.IsUserInRole(User.Identity.Name, "Student"))
+        {
+            <td>
+                @Html.DisplayFor(modelItem => item.Grade)
+            </td>
+        }
+    </tr>
+}
+
+</table>
+@Html.ActionLink("Exams Calendar", "MyExamsCalendar", "Exams", null, htmlAttributes: new { @class = "btn btn-info" })

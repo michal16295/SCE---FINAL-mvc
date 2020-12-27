@@ -1,0 +1,59 @@
+﻿@model IEnumerable<SCE___FINAL.Models.Course>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>All Courses</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create",null, htmlAttributes: new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FinishDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Class)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Hours)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FinishDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Class)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Hours)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Courseid }, htmlAttributes: new { @class = "btn btn-primary" }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Courseid }, htmlAttributes: new { @class = "btn btn-info" }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Courseid }, htmlAttributes: new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>
+@Html.ActionLink("Course Calendar", "Calender",null, htmlAttributes: new { @class = "btn btn-info" })
+@Html.ActionLink("Exam Calendar", "Calender","Exams", null, htmlAttributes: new { @class = "btn btn-info" })

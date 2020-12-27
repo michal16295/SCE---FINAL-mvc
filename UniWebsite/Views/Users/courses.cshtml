@@ -1,0 +1,104 @@
+﻿@model IEnumerable<SCE___FINAL.ViewModels.UserCourseViewModel>
+@using Microsoft.AspNet.Identity;
+
+<h2>Courses</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lecturer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FinishDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Class)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Hours)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MoedA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MoedB)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FinalGrade)
+        </th>
+        <th>
+
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lecturer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FinishDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Class)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Hours)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MoedA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MoedB)
+        </td>
+        <td>
+            @if (item.FinalGrade < 56)
+            {
+                <span style="color:red;">@item.FinalGrade </span>
+            }
+            else
+            {
+                <span style="color:green;">@item.FinalGrade </span>
+            }
+        </td>
+        <td>
+            @if (item.AppliedMoedB)
+            {
+                <span class="label label-primary">Applied For Moed B</span>
+            }
+            @if (Roles.IsUserInRole(User.Identity.Name, "Student"))
+            {
+                if (DateTime.Now < item.MoedB && DateTime.Now > item.MoedA && !item.AppliedMoedB)
+                {
+                    @Html.ActionLink("Apply for Moed B", "ApplyMoedB", "Users", new { CourseId = item.CourseId, UserId = User.Identity.GetUserId() }, htmlAttributes: new { @class = "btn btn-default" })
+                }
+
+            }
+
+
+
+        </td>
+
+
+    </tr>
+}
+
+</table>
+@if (!Roles.IsUserInRole(User.Identity.Name, "Admin"))
+{
+    @Html.ActionLink("Course Calendar", "CurrentUserCalendar", "Users", null, htmlAttributes: new { @class = "btn btn-info" })
+}
+
